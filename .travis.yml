@@ -6,6 +6,19 @@ before_install:
   - docker build -t raytabuan/docker-react -f Dockerfile.dev .
 
 script:
-  - docker run -e CI=true raytabuan/docker-react npm run test 
+  - docker run -e CI=true raytabuan/docker-react npm run test
 
 language: generic
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-react"
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-east-2-138591723335"
+  bucket_path: "docker-react"
+  on:
+    branch: master
+
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key: $AWS_SECRET_KEY
